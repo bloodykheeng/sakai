@@ -27,7 +27,7 @@ const Documentation = lazy(() => import("./components/Documentation"));
 function AppRoutes() {
     const privateDefaultRoutes = [
         {
-            path: "/",
+            path: "/dashboard",
             name: "dashboard",
             element: DashboardPage, // Replace with the actual component
             layout: "/private",
