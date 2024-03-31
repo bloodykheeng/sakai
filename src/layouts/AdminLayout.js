@@ -49,9 +49,11 @@ import "../App.scss";
 
 //
 import AppRoutes from "../AppRoutes";
+import useAuthContext from "../context/AuthContext";
 
 const AdminLayout = () => {
-    const [layoutMode, setLayoutMode] = useState("static");
+    const { user, getUserQuery, isLoading } = useAuthContext();
+    const [layoutMode, setLayoutMode] = useState("overlay");
     const [layoutColorMode, setLayoutColorMode] = useState("light");
     const [inputStyle, setInputStyle] = useState("outlined");
     const [ripple, setRipple] = useState(true);
@@ -325,7 +327,20 @@ const AdminLayout = () => {
 
             <div className="layout-main-container">
                 <div className="layout-main">
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense
+                        fallback={
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    height: "100vh", // Full viewport height
+                                }}
+                            >
+                                <i className="pi pi-spin pi-spinner" style={{ fontSize: "2rem" }}></i>
+                            </div>
+                        }
+                    >
                         <Routes>
                             {defaultRoutes.map((route, index) => {
                                 if (route?.name === "dashboard" || route?.name === "chart") {
@@ -339,6 +354,14 @@ const AdminLayout = () => {
                             <Route path="/signup" element={<RegistrationPage />} />
                             <Route path="403" element={<NotAuthorised />} />
                             <Route path="*" element={<PageNotFound />} /> */}
+                            <Route
+                                path="*"
+                                element={
+                                    <div>
+                                        <h1>Page Not Found</h1>
+                                    </div>
+                                }
+                            />
                         </Routes>
                     </Suspense>
                 </div>

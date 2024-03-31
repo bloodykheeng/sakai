@@ -8,7 +8,7 @@ import { useActive } from "./context/ActiveContext";
 export const AppConfig = (props) => {
     // const [active, setActive] = useState(false);
     const { active, setActive } = useActive();
-    const [scale, setScale] = useState(14);
+    const [scale, setScale] = useState(12);
     const [scales] = useState([12, 13, 14, 15, 16]);
     const [theme, setTheme] = useState("lara-light-indigo");
     const config = useRef(null);

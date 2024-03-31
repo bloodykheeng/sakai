@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 //
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { confirmDialog, ConfirmDialog } from "primereact/confirmdialog";
 
 //
 import "@fontsource/roboto/300.css";
@@ -21,12 +22,17 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 //
+import { Tooltip } from "primereact/tooltip";
+
+//
 import { ActiveProvider } from "./context/ActiveContext";
+import { AuthProvider } from "./context/AuthContext";
 
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
             networkMode: "always",
+            refetchOnWindowFocus: false,
         },
     },
 });
@@ -35,10 +41,14 @@ ReactDOM.render(
     <BrowserRouter>
         <QueryClientProvider client={queryClient}>
             <ScrollToTop>
-                <ActiveProvider>
-                    <App />
-                </ActiveProvider>
+                <AuthProvider>
+                    <ActiveProvider>
+                        <App />
+                    </ActiveProvider>
+                </AuthProvider>
                 <ReactQueryDevtools initialIsOpen={true} />
+                <Tooltip target=".custom-target-icon" />
+                <ConfirmDialog />
                 <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
             </ScrollToTop>
         </QueryClientProvider>
