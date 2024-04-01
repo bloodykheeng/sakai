@@ -93,7 +93,7 @@ export const AppTopbar = (props) => {
     return (
         <div className="layout-topbar">
             <Link to="/" className="layout-topbar-logo">
-                <img src={props.layoutColorMode === "light" ? "assets/layout/images/logo-dark.svg" : "assets/layout/images/logo-white.svg"} alt="logo" />
+                <img src={props.layoutColorMode === "light" ? "assets/layout/images/mycarclassic.png" : "assets/layout/images/mycarclassic.png"} alt="logo" style={{ height: "100px" }} />
                 <span>MYCAR</span>
             </Link>
 
@@ -167,42 +167,6 @@ export const AppTopbar = (props) => {
                     <p>
                         <strong>Role:</strong> {userDetails?.role}
                     </p>
-
-                    {["Admin", "Department Commissioner", "Assistant Commissioner", "District Water Engineer", "Project Manager", "Engineer", "Utility Manager"].includes(userDetails?.role) && (
-                        <p>
-                            <strong>Directorate:</strong> {userDetails?.user_directorate?.name || "N/A"}
-                        </p>
-                    )}
-
-                    {["Department Commissioner", "Assistant Commissioner", "District Water Engineer", "Project Manager", "Engineer", "Utility Manager"].includes(userDetails?.role) && (
-                        <p>
-                            <strong>Department:</strong> {userDetails?.user_department?.name || "N/A"}
-                        </p>
-                    )}
-
-                    {["District Water Engineer", "Project Manager", "Engineer"].includes(userDetails?.role) && (
-                        <p>
-                            <strong>Department Administration:</strong> {userDetails?.user_dept_administration?.name || "N/A"}
-                        </p>
-                    )}
-
-                    {["Project Manager", "Engineer"].includes(userDetails?.role) && (
-                        <p>
-                            <strong>Project:</strong> {userDetails?.user_project?.project_title || "N/A"}
-                        </p>
-                    )}
-
-                    {userDetails?.role === "Engineer" && (
-                        <p>
-                            <strong>Sub Project:</strong> {userDetails?.user_subproject?.name || "N/A"}
-                        </p>
-                    )}
-
-                    {userDetails?.role === "Utility Manager" && (
-                        <p>
-                            <strong>Utility:</strong> {userDetails?.user_utility?.name || "N/A"}
-                        </p>
-                    )}
 
                     <p>
                         <strong>Last Login:</strong> {userDetails?.lastlogin}

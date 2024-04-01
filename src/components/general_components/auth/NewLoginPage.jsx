@@ -2,22 +2,19 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import * as Components from "./styles/Components";
 import { useNavigate } from "react-router-dom";
-import { obtainToken, forgotPassword } from "../../services/auth/auth-api.js";
-
+import { obtainToken, forgotPassword } from "../../../services/auth/auth-api";
 import { ProgressSpinner } from "primereact/progressspinner";
-
 import Lottie from "lottie-react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import MpiraPhonelottie from "../../assets/lotties/lottiefiles/animation_lley26fl.json";
 
-import WaterAndEnviromentData from "../../assets/lotties/lottiefiles/WaterAndEnviroment.json";
-import WaterLoading from "../../assets/lotties/lottiefiles/WaterLoading.json";
+import WaterAndEnviromentData from "./lottiefiles/WaterAndEnviroment.json";
+import WaterLoading from "./lottiefiles/WaterLoading.json";
 // import ForgotPassword from "./lottiefiles/ForgotPassword.json";
 import { toast } from "react-toastify";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import OpenEye from "../../assets/lotties/lottiefiles/83983-eye-icon.json";
+import OpenEye from "./lottiefiles/83983-eye-icon.json";
 
 function NewLoginPage() {
     const queryClient = useQueryClient();
@@ -29,16 +26,6 @@ function NewLoginPage() {
     // const [loading, setLoading] = useState(false);
     const [passwordType, setPasswordType] = useState("password");
     const [formData, setFormData] = useState();
-
-    const [isfocused, setIsFocused] = useState(false);
-
-    const handleInputFocus = () => {
-        setIsFocused(true);
-    };
-
-    const handleInputBlur = () => {
-        setIsFocused(false);
-    };
 
     const togglePassword = () => {
         if (passwordType === "password") {
@@ -53,11 +40,11 @@ function NewLoginPage() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const loginMutation = useMutation((variables) => obtainToken(variables?.email, variables?.password), {
+    const loginMutation = useMutation((variables) => obtainToken(variables?.username, variables?.password), {
         onSuccess: (data) => {
             console.log("successfull login : xxxxx data : ", data);
             queryClient.invalidateQueries([]);
-            navigate("/");
+            navigate("/dashboard");
             // window.location.reload();
         },
         onError: (error) => {
@@ -74,9 +61,7 @@ function NewLoginPage() {
             data?.data?.success ? toast.success(data?.data?.message) : toast.warning(data?.data?.message);
         },
         onError: (error) => {
-            console.log("data nnnnn is : errorrr ", error);
-            // toast.error(error?.message ? error?.message : "An error Occured while processing your Email ! please Contact Administrator");
-            error?.response?.data?.message ? toast.error(error?.response?.data?.message) : !error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
+            toast.error(error?.message ? error?.message : "An error Occured while processing your Email ! please Contact Administrator");
         },
     });
 
@@ -99,7 +84,7 @@ function NewLoginPage() {
             event.stopPropagation();
             invalid = true;
         }
-        if (!formData?.email || !formData?.password) {
+        if (!formData?.username || !formData?.password) {
             // setMessage("Invalid empty fields");
             // setTimeout(() => setMessage(""), 5000);
             toast.warning("Both Fields are required");
@@ -116,7 +101,7 @@ function NewLoginPage() {
             <div
                 style={{
                     width: "100%",
-                    height: "100vh",
+                    height: "100%",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -140,7 +125,7 @@ function NewLoginPage() {
                                 <Components.Button onClick={handleForgotPasssword} disabled={forgotPasswordMutation.isLoading}>
                                     {forgotPasswordMutation.isLoading ? (
                                         <center>
-                                            <i className="fa fa-spinner fa-spin" />
+                                            <ProgressSpinner />
                                         </center>
                                     ) : (
                                         "Submit"
@@ -157,8 +142,8 @@ function NewLoginPage() {
                     <div style={{ width: "100%" }}>
                         <Components.SignInContainer signinIn={signIn}>
                             <Components.Form>
-                                <Components.Title>MYCAR</Components.Title>
-                                <h3>Login</h3>
+                                <Components.Title>Web Based M & E System</Components.Title>
+                                <Components.Title>Login</Components.Title>
                                 {loginMutation.isLoading && (
                                     <div style={{ width: "100%" }}>
                                         <Lottie animationData={WaterLoading} loop={true} autoplay={true} />
@@ -173,11 +158,11 @@ function NewLoginPage() {
                 )} */}
                                 {message && <p style={{ dispaly: "block", padding: "10px", color: "red" }}>{message}</p>}
                                 <div style={{ width: "100%" }}>
-                                    <Components.Input type="text" value={formData?.email} name="email" onChange={handleChange} placeholder="Email" />
+                                    <Components.Input type="text" value={formData?.username} name="username" onChange={handleChange} placeholder="User Name" />
                                 </div>
 
-                                <PasswordInput isFocused={isfocused}>
-                                    <input value={formData?.password} placeholder="Password" name="password" type={passwordType} onChange={handleChange} onFocus={handleInputFocus} onBlur={handleInputBlur} />
+                                <PasswordInput>
+                                    <input value={formData?.password} placeholder="Password" name="password" type={passwordType} onChange={handleChange} />
                                     <div onClick={togglePassword}>{passwordType === "password" ? <VisibilityOffIcon /> : <Lottie animationData={OpenEye} style={{ width: "25px" }} loop={true} autoplay={true} />}</div>
                                 </PasswordInput>
 
@@ -187,7 +172,7 @@ function NewLoginPage() {
                                 <Components.Button onClick={handleSubmit} disabled={loginMutation.isLoading}>
                                     {loginMutation.isLoading ? (
                                         <center>
-                                            <i className="pi pi-spin pi-spinner" style={{ fontSize: "2em" }}></i>
+                                            <ProgressSpinner />
                                         </center>
                                     ) : (
                                         "Login"
@@ -201,17 +186,24 @@ function NewLoginPage() {
                         <Components.OverlayContainer signinIn={signIn}>
                             <Components.Overlay signinIn={signIn}>
                                 <Components.LeftOverlayPanel signinIn={signIn}>
-                                    <h2 style={{ textTransform: "none", marginBottom: "-0.3rem" }}>MYCAR</h2>
+                                    <div className="img-box">
+                                        <img style={{ height: "150px", marginBottom: "0.1rem" }} src="images/coatOfArms.png" alt="home-img" />
+                                    </div>
+                                    <h5 style={{ textTransform: "none", marginBottom: "-0.3rem" }}>Ministry of Water and Environment</h5>
 
                                     <div style={{ width: "100%" }}>
-                                        <Lottie animationData={MpiraPhonelottie} loop={true} autoplay={true} />
+                                        <Lottie animationData={WaterAndEnviromentData} loop={true} autoplay={true} />
                                     </div>
                                 </Components.LeftOverlayPanel>
 
                                 <Components.RightOverlayPanel signinIn={signIn}>
-                                    <h2 style={{ textTransform: "none", marginBottom: "-0.3rem" }}>MYCAR</h2>
+                                    <div className="img-box">
+                                        <img style={{ height: "150px", marginBottom: "0.1rem" }} src="images/coatOfArms.png" alt="home-img" />
+                                    </div>
+                                    <h5 style={{ textTransform: "none", marginBottom: "-0.3rem" }}>Ministry of Water and Environment</h5>
+
                                     <div style={{ width: "100%" }}>
-                                        <Lottie animationData={MpiraPhonelottie} loop={true} autoplay={true} />
+                                        <Lottie animationData={WaterAndEnviromentData} loop={true} autoplay={true} />
                                     </div>
                                     {/* <Components.GhostButton onClick={() => toggle(false)}>
               Sigin Up
@@ -234,8 +226,6 @@ const PasswordInput = styled.div`
     justify-content: center;
     flex-direction: row;
     width: 95%;
-    outline: ${(props) => (props.isfocused ? "2px solid #04619f" : "none")};
-
     input {
         background-color: #eee;
         border: none;
