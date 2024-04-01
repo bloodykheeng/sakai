@@ -214,8 +214,8 @@ const Dashboard = (props) => {
                     <ul className="list-none p-0 m-0">
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Space T-Shirt</span>
-                                <div className="mt-1 text-600">Clothing</div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Ford F-150</span>
+                                <div className="mt-1 text-600">Popular Pickup Truck</div>
                             </div>
                             <div className="mt-2 md:mt-0 flex align-items-center">
                                 <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: "8px" }}>
@@ -226,8 +226,8 @@ const Dashboard = (props) => {
                         </li>
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Portal Sticker</span>
-                                <div className="mt-1 text-600">Accessories</div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Honda Civic</span>
+                                <div className="mt-1 text-600">Compact & Efficient Car</div>
                             </div>
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
                                 <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: "8px" }}>
@@ -238,8 +238,8 @@ const Dashboard = (props) => {
                         </li>
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Supernova Sticker</span>
-                                <div className="mt-1 text-600">Accessories</div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Chevrolet Corvette</span>
+                                <div className="mt-1 text-600">High-Performance Sports Car</div>
                             </div>
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
                                 <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: "8px" }}>
@@ -250,8 +250,8 @@ const Dashboard = (props) => {
                         </li>
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Wonders Notebook</span>
-                                <div className="mt-1 text-600">Office</div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Tesla Model S</span>
+                                <div className="mt-1 text-600">Luxury Electric Vehicle</div>
                             </div>
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
                                 <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: "8px" }}>
@@ -262,8 +262,8 @@ const Dashboard = (props) => {
                         </li>
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Mat Black Case</span>
-                                <div className="mt-1 text-600">Accessories</div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">BMW 3 Series</span>
+                                <div className="mt-1 text-600">Premium Executive Sedan</div>
                             </div>
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
                                 <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: "8px" }}>
@@ -274,8 +274,8 @@ const Dashboard = (props) => {
                         </li>
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Robots T-Shirt</span>
-                                <div className="mt-1 text-600">Clothing</div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Mercedes-Benz S-Class</span>
+                                <div className="mt-1 text-600">Flagship Luxury Sedan</div>
                             </div>
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
                                 <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: "8px" }}>
@@ -320,7 +320,7 @@ const Dashboard = (props) => {
                                 Richard Jones
                                 <span className="text-700">
                                     {" "}
-                                    has purchased a blue t-shirt for <span className="text-blue-500">79$</span>
+                                    has purchased a blue side mirror for <span className="text-blue-500">79$</span>
                                 </span>
                             </span>
                         </li>
@@ -344,7 +344,7 @@ const Dashboard = (props) => {
                                 Keyser Wick
                                 <span className="text-700">
                                     {" "}
-                                    has purchased a black jacket for <span className="text-blue-500">59$</span>
+                                    has purchased a black pireri tyre for <span className="text-blue-500">5900$</span>
                                 </span>
                             </span>
                         </li>
