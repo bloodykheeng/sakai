@@ -156,7 +156,7 @@ function UserList({ loggedInUserData }) {
                 <div>
                     <div xs={12}>
                         <div style={{ height: "3rem", margin: "1rem", display: "flex", justifyContent: "flex-end", gap: "1rem" }}>
-                            {loggedInUserData?.permissions?.includes("add users") && (
+                            {loggedInUserData?.permissions?.includes("create user") && (
                                 <div>
                                     <div md={12} className="text-end">
                                         <Button onClick={() => handleShowUserForm()}>Add user</Button>
@@ -172,8 +172,8 @@ function UserList({ loggedInUserData }) {
                                     tableColumns={columns}
                                     handleShowEditForm={handleShowEditForm}
                                     handleDelete={(e, item_id) => handleDelete(e, item_id)}
-                                    showEdit={loggedInUserData?.permissions?.includes("edit users")}
-                                    showDelete={loggedInUserData?.permissions?.includes("delete users")}
+                                    showEdit={loggedInUserData?.permissions?.includes("update user")}
+                                    showDelete={loggedInUserData?.permissions?.includes("delete user")}
                                     loading={loading || getListOfUsers.isLoading || getListOfUsers.status == "loading"}
                                 />
 

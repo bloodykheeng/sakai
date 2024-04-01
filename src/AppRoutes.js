@@ -7,6 +7,9 @@ import NewCountiesPage from "./views/locations/county/CountyPage";
 import NewSubCountiesPage from "./views/locations/subcounty/SubcountyPage";
 import NewParishesPage from "./views/locations/parish/ParishPage";
 import NewVillagesPage from "./views/locations/village/VillagePage";
+import NewVendorsPage from "./views/vendors/VendorsPage";
+import NewProductTypesPage from "./views/settings/product-types/ProductTypesPage";
+import NewServiceTypesPage from "./views/settings/service-types/ServiceTypesPage";
 
 // ============ Customm component routes ========================
 const DashboardPage = lazy(() => import("./components/Dashboard"));
@@ -236,6 +239,24 @@ function AppRoutes() {
             path: "/villages",
             name: "villages",
             element: NewVillagesPage,
+            layout: "/admin",
+        },
+        {
+            path: "/vendors",
+            name: "vendors",
+            element: NewVendorsPage,
+            layout: "/admin",
+        },
+        {
+            path: "/product_types",
+            name: "product types",
+            element: NewProductTypesPage,
+            layout: "/admin",
+        },
+        {
+            path: "/service_types",
+            name: "service types",
+            element: NewServiceTypesPage,
             layout: "/admin",
         },
     ];
