@@ -9,7 +9,8 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import Lottie from "lottie-react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import MpiraPhonelottie from "../../assets/lotties/lottiefiles/animation_lley26fl.json";
+// import MpiraPhonelottie from "../../assets/lotties/lottiefiles/animation_lley26fl.json";
+import ProcessDocuments from "../../assets/lotties/nice-hop/documets-processed.json";
 
 import WaterAndEnviromentData from "../../assets/lotties/lottiefiles/WaterAndEnviroment.json";
 import WaterLoading from "../../assets/lotties/lottiefiles/WaterLoading.json";
@@ -166,7 +167,7 @@ function NewLoginPage() {
                     <div style={{ width: "100%" }}>
                         <Components.SignInContainer signinIn={signIn}>
                             <Components.Form>
-                                <Components.Title>MYCAR</Components.Title>
+                                <Components.Title>NICE HOUSE OF PLASTICS</Components.Title>
                                 <h3>Login</h3>
                                 {loginMutationIsLoading && (
                                     <div style={{ width: "100%" }}>
@@ -210,17 +211,17 @@ function NewLoginPage() {
                         <Components.OverlayContainer signinIn={signIn}>
                             <Components.Overlay signinIn={signIn}>
                                 <Components.LeftOverlayPanel signinIn={signIn}>
-                                    <h2 style={{ textTransform: "none", marginBottom: "-0.3rem" }}>MYCAR</h2>
+                                    <h2 style={{ textTransform: "none", marginBottom: "-0.3rem" }}>NICE HOUSE OF PLASTICS</h2>
 
                                     <div style={{ width: "100%" }}>
-                                        <Lottie animationData={MpiraPhonelottie} loop={true} autoplay={true} />
+                                        <Lottie animationData={ProcessDocuments} loop={true} autoplay={true} />
                                     </div>
                                 </Components.LeftOverlayPanel>
 
                                 <Components.RightOverlayPanel signinIn={signIn}>
-                                    <h2 style={{ textTransform: "none", marginBottom: "-0.3rem" }}>MYCAR</h2>
+                                    <h2 style={{ textTransform: "none", marginBottom: "-0.3rem" }}>NICE HOUSE OF PLASTICS</h2>
                                     <div style={{ width: "100%" }}>
-                                        <Lottie animationData={MpiraPhonelottie} loop={true} autoplay={true} />
+                                        <Lottie animationData={ProcessDocuments} loop={true} autoplay={true} />
                                     </div>
                                     {/* <Components.GhostButton onClick={() => toggle(false)}>
               Sigin Up
