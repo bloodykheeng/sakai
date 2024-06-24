@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { getPermissionNotInCurrentRole } from "../../../../../../services/permissions/permission-service";
@@ -36,8 +36,11 @@ function RolesPermissionForm({ roleId, handleMutation, permissions, ...props }) 
     };
 
     //
-    const addPermissionsToRoleMutation = useMutation((data) => addPermissionsToRole(data), {
+    const [addPermissionsToRoleMutationIsloading, setAddPermissionsToRoleMutationIsLoading] = useState(false);
+    const addPermissionsToRoleMutation = useMutation({
+        mutationFn: (data) => addPermissionsToRole(data),
         onSuccess: (data) => {
+            setAddPermissionsToRoleMutationIsLoading(false);
             queryClient.invalidateQueries(["roles"]);
             queryClient.invalidateQueries(["usersroles"]);
             queryClient.invalidateQueries(["permissions", "getPermissionNotInCurrentRole"]);
@@ -47,6 +50,7 @@ function RolesPermissionForm({ roleId, handleMutation, permissions, ...props }) 
             console.log("data : ..... ", data);
         },
         onError: (err) => {
+            setAddPermissionsToRoleMutationIsLoading(false);
             toast.error("There Was An Error Attaching Permissions");
         },
     });
@@ -67,6 +71,7 @@ function RolesPermissionForm({ roleId, handleMutation, permissions, ...props }) 
                     permission_ids: permissionIds,
                 };
                 console.log("nnnmnmnmmnn item : ", item);
+                setAddPermissionsToRoleMutationIsLoading(true);
                 addPermissionsToRoleMutation.mutate(item);
             }
         }
@@ -75,7 +80,9 @@ function RolesPermissionForm({ roleId, handleMutation, permissions, ...props }) 
     };
 
     //
-    const permissionsData = useQuery(["permissions", "getPermissionNotInCurrentRole"], () => getPermissionNotInCurrentRole(roleId), {
+    const permissionsData = useQuery({
+        queryKey: ["permissions", "getPermissionNotInCurrentRole"],
+        queryFn: () => getPermissionNotInCurrentRole(roleId),
         onSuccess: (data) => {
             setPermissionsNotInRole(data?.data);
         },
@@ -83,6 +90,20 @@ function RolesPermissionForm({ roleId, handleMutation, permissions, ...props }) 
             console.log("There was an error getPermissionNotInCurrentRole : ", error);
         },
     });
+
+    useEffect(() => {
+        if (permissionsData?.isError) {
+            console.log("Error fetching List of Users :", permissionsData?.error);
+            permissionsData?.error?.response?.data?.message ? toast.error(permissionsData?.error?.response?.data?.message) : !permissionsData?.error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
+        }
+    }, [permissionsData?.isError]);
+
+    const memoizedPermissions = useMemo(() => permissionsData?.data?.data, [permissionsData]);
+    useEffect(() => {
+        if (memoizedPermissions) {
+            setPermissionsNotInRole(memoizedPermissions);
+        }
+    }, [memoizedPermissions]);
 
     //
     const handleCancel = (id) => {
@@ -126,7 +147,7 @@ function RolesPermissionForm({ roleId, handleMutation, permissions, ...props }) 
     // Dialog footer for actions
     const dialogFooter = (
         <div>
-            <Button label="Save" icon="pi pi-check" onClick={handleSubmit} disabled={addPermissionsToRoleMutation.isLoading} />
+            <Button label="Save" icon="pi pi-check" onClick={handleSubmit} disabled={addPermissionsToRoleMutationIsloading} />
             {/* Other buttons if needed */}
         </div>
     );
@@ -146,7 +167,6 @@ function RolesPermissionForm({ roleId, handleMutation, permissions, ...props }) 
             visible={props?.show}
             modal
             onHide={props?.onClose}
-            header="Permissions"
             style={{ width: "50vw" }} // You can adjust the width as needed
             maximizable={true}
             footer={dialogFooter}
@@ -161,10 +181,10 @@ function RolesPermissionForm({ roleId, handleMutation, permissions, ...props }) 
                         placeholder="Select a Permission"
                         optionLabel="name" // assuming your permissions have a 'name' property
                     />
-                    {formData.permissionId && <Button label="Add Permission" icon="pi pi-plus" onClick={handleAddPermission} className="p-button-secondary" disabled={addPermissionsToRoleMutation.isLoading} />}
+                    {formData.permissionId && <Button label="Add Permission" icon="pi pi-plus" onClick={handleAddPermission} className="p-button-secondary" disabled={addPermissionsToRoleMutationIsloading} />}
                 </div>
 
-                {addPermissionsToRoleMutation.isLoading && (
+                {addPermissionsToRoleMutationIsloading && (
                     <div style={{ marginLeft: "10px", display: "flex", alignItems: "center" }}>
                         <ProgressSpinner style={{ width: "50px", height: "50px" }} strokeWidth="8" />
                     </div>

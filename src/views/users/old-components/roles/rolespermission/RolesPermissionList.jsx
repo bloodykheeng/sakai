@@ -25,17 +25,22 @@ function RolesPermissionList({ permissions = [], roleName, roleId, handleCloseMo
         setShowAddForm(false);
     };
 
-    const deletePermissionFromRoleMutation = useMutation(deletePermissionFromRole, {
+    const [deletePermissionFromRoleMutationIsLoading, setDeletePermissionFromRoleMutationIsLoading] = useState(false);
+
+    const deletePermissionFromRoleMutation = useMutation({
+        mutationFn: deletePermissionFromRole,
         onSuccess: (data) => {
             queryClient.invalidateQueries(["roles"]);
             queryClient.invalidateQueries(["usersroles"]);
             queryClient.invalidateQueries(["permissions", "getPermissionNotInCurrentRole"]);
             toast.success("Permission Deleted Successfully");
             setLoading(false);
+            setDeletePermissionFromRoleMutationIsLoading(false);
             handleCloseModal();
         },
-        onError: (err) => {
-            toast.error("An Error Occured While Deleting Permission");
+        onError: (error) => {
+            setDeletePermissionFromRoleMutationIsLoading(false);
+            error?.response?.data?.message ? toast.error(error?.response?.data?.message) : !error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
             let message = "An error occurred!";
             setMessage(message);
             setLoading(false);
@@ -113,7 +118,7 @@ function RolesPermissionList({ permissions = [], roleName, roleId, handleCloseMo
             </div>
 
             <div>
-                <MuiTable tableTitle={`${roleName} Permissions`} tableData={permissions} tableColumns={columns} handleDelete={(e, item_id) => confirmDelete(e, item_id)} showDelete={true} loading={loading || deletePermissionFromRoleMutation.isLoading} />
+                <MuiTable tableTitle={`${roleName} Permissions`} tableData={permissions} tableColumns={columns} handleDelete={(e, item_id) => confirmDelete(e, item_id)} showDelete={true} loading={loading || deletePermissionFromRoleMutationIsLoading} />
 
                 {(loading || deletePermissionFromRoleMutation.isLoading) && <WaterIsLoading />}
             </div>

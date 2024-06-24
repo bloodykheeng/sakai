@@ -53,28 +53,35 @@ function NewLoginPage() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const loginMutation = useMutation((variables) => obtainToken(variables?.email, variables?.password), {
+    const [loginMutationIsLoading, setLoginMutationIsLoading] = useState(false);
+    const loginMutation = useMutation({
+        mutationFn: (variables) => obtainToken(variables?.email, variables?.password),
         onSuccess: (data) => {
             console.log("successfull login : xxxxx data : ", data);
             queryClient.invalidateQueries([]);
+            setLoginMutationIsLoading(false);
             navigate("/");
             // window.location.reload();
         },
         onError: (error) => {
             toast.error(error?.response?.data?.message ? error?.response?.data?.message : "An error Occured while Logging You In ! please Contact Administrator");
-
+            setLoginMutationIsLoading(false);
             console.log("login error : ", error);
         },
     });
 
-    const forgotPasswordMutation = useMutation(forgotPassword, {
+    const [forgotPasswordMutationIsLoading, setForgotPasswordMutationIsLoading] = useState(false);
+    const forgotPasswordMutation = useMutation({
+        mutationFn: forgotPassword,
         onSuccess: (data) => {
             queryClient.invalidateQueries([]);
             console.log("data nnnnn is : ", data);
+            setForgotPasswordMutationIsLoading(false);
             data?.data?.success ? toast.success(data?.data?.message) : toast.warning(data?.data?.message);
         },
         onError: (error) => {
             console.log("data nnnnn is : errorrr ", error);
+            setForgotPasswordMutationIsLoading(false);
             // toast.error(error?.message ? error?.message : "An error Occured while processing your Email ! please Contact Administrator");
             error?.response?.data?.message ? toast.error(error?.response?.data?.message) : !error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
         },
@@ -85,6 +92,7 @@ function NewLoginPage() {
         if (!email) {
             toast.warning("Email is required");
         } else {
+            setForgotPasswordMutationIsLoading(true);
             forgotPasswordMutation.mutate(email);
         }
     };
@@ -105,6 +113,7 @@ function NewLoginPage() {
             toast.warning("Both Fields are required");
         } else {
             if (invalid === false) {
+                setLoginMutationIsLoading(true);
                 console.log("Form Submitted");
                 loginMutation.mutate(formData);
             }
@@ -130,15 +139,15 @@ function NewLoginPage() {
                                 <h3>
                                     <b>Forgot Password</b>
                                 </h3>
-                                {forgotPasswordMutation.isLoading && (
+                                {forgotPasswordMutationIsLoading && (
                                     <div style={{ width: "100%" }}>
                                         <Lottie animationData={WaterLoading} loop={true} autoplay={true} />
                                     </div>
                                 )}
                                 <h5>Enter Email</h5>
                                 <Components.Input type="email" placeholder="Email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                                <Components.Button onClick={handleForgotPasssword} disabled={forgotPasswordMutation.isLoading}>
-                                    {forgotPasswordMutation.isLoading ? (
+                                <Components.Button onClick={handleForgotPasssword} disabled={forgotPasswordMutationIsLoading}>
+                                    {forgotPasswordMutationIsLoading ? (
                                         <center>
                                             <i className="fa fa-spinner fa-spin" />
                                         </center>
@@ -159,7 +168,7 @@ function NewLoginPage() {
                             <Components.Form>
                                 <Components.Title>MYCAR</Components.Title>
                                 <h3>Login</h3>
-                                {loginMutation.isLoading && (
+                                {loginMutationIsLoading && (
                                     <div style={{ width: "100%" }}>
                                         <Lottie animationData={WaterLoading} loop={true} autoplay={true} />
                                     </div>
@@ -184,8 +193,8 @@ function NewLoginPage() {
                                 <Components.Anchor onClick={() => toggle(false)} href="#">
                                     Forgot your password?
                                 </Components.Anchor>
-                                <Components.Button onClick={handleSubmit} disabled={loginMutation.isLoading}>
-                                    {loginMutation.isLoading ? (
+                                <Components.Button onClick={handleSubmit} disabled={loginMutationIsLoading}>
+                                    {loginMutationIsLoading ? (
                                         <center>
                                             <i className="pi pi-spin pi-spinner" style={{ fontSize: "2em" }}></i>
                                         </center>

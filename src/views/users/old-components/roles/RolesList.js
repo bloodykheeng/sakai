@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import MuiTable from "../../../../components/general_components/MuiTable";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import RolesPermissionModal from "./RolesPermissionModal.jsx";
+import { toast } from "react-toastify";
 
 function RolesList() {
     const [permissionShowModal, setPermissionShowModal] = useState(false);
@@ -58,8 +59,15 @@ function RolesList() {
             field: "guard_name",
         },
     ];
-    const getListOfRoles = useQuery(["usersroles"], getAllRoles);
+    const getListOfRoles = useQuery({ queryKey: ["usersroles"], queryFn: getAllRoles });
     console.log("getListOfRoles : ", getListOfRoles);
+
+    useEffect(() => {
+        if (getListOfRoles?.isError) {
+            console.log("Error fetching List of Users :", getListOfRoles?.error);
+            getListOfRoles?.error?.response?.data?.message ? toast.error(getListOfRoles?.error?.response?.data?.message) : !getListOfRoles?.error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
+        }
+    }, [getListOfRoles?.isError]);
     return (
         <div>
             <div>

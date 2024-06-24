@@ -12,23 +12,26 @@ import { toast } from "react-toastify";
 function EditForm({ loggedInUserData, ...props }) {
     const queryClient = useQueryClient();
 
+    const [editMutationIsLoading, setEditMutationIsLoading] = useState(false);
     const editMutation = useMutation({
         mutationFn: (variables) => updateUser(props?.rowData?.id, variables),
         onSuccess: () => {
+            setEditMutationIsLoading(false);
             props.onClose();
             toast.success("Edited Successfully");
             queryClient.invalidateQueries(["users"]);
         },
         onError: (error) => {
             // props.onClose();
-            error?.response?.data?.message ? toast.error(error?.response?.data?.message) : toast.error("Án Error Occured Please Contact Admin");
+            setEditMutationIsLoading(false);
+            error?.response?.data?.message ? toast.error(error?.response?.data?.message) : !error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
             console.log("create programs error : ", error);
         },
     });
 
     const handleSubmit = (data) => {
         console.log("updating user : ", data);
-
+        setEditMutationIsLoading(true);
         editMutation.mutate(data);
     };
 
@@ -39,7 +42,7 @@ function EditForm({ loggedInUserData, ...props }) {
             <RowForm loggedInUserData={loggedInUserData} initialData={props.rowData} handleSubmit={handleSubmit} selectedParentItem={props?.selectedParentItem} />
             {/* <h4>{creactProgramsMutation.status}</h4> */}
 
-            {editMutation.isLoading && (
+            {editMutationIsLoading && (
                 <center>
                     <ProgressSpinner
                         style={{

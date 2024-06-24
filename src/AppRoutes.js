@@ -2,11 +2,6 @@ import React, { lazy, Suspense, useState } from "react";
 
 //==================== my car routes ====================
 import NewUsersPage from "./views/users/UserPage";
-import NewDistrictsPage from "./views/locations/Districts/DistrictPage";
-import NewCountiesPage from "./views/locations/county/CountyPage";
-import NewSubCountiesPage from "./views/locations/subcounty/SubcountyPage";
-import NewParishesPage from "./views/locations/parish/ParishPage";
-import NewVillagesPage from "./views/locations/village/VillagePage";
 import NewVendorsPage from "./views/vendors/VendorsPage";
 import NewProductTypesPage from "./views/settings/product-types/ProductTypesPage";
 import NewServiceTypesPage from "./views/settings/service-types/ServiceTypesPage";
@@ -183,62 +178,6 @@ function AppRoutes() {
             path: "/users",
             name: "users",
             element: NewUsersPage,
-            layout: "/admin",
-        },
-        {
-            path: "/districts",
-            name: "districts",
-            element: NewDistrictsPage,
-            layout: "/admin",
-        },
-        {
-            path: "/districts/counties",
-            name: "districts/counties",
-            element: NewCountiesPage,
-            layout: "/admin",
-        },
-
-        {
-            path: "/counties",
-            name: "counties",
-            element: NewCountiesPage,
-            layout: "/admin",
-        },
-
-        {
-            path: "/districts/counties/subcounties",
-            name: "districts/counties/subcounties",
-            element: NewSubCountiesPage,
-            layout: "/admin",
-        },
-        {
-            path: "/subcounties",
-            name: "subcounties",
-            element: NewSubCountiesPage,
-            layout: "/admin",
-        },
-        {
-            path: "/districts/counties/subcounties/parishes",
-            name: "districts/counties/subcounties/parishes",
-            element: NewParishesPage,
-            layout: "/admin",
-        },
-        {
-            path: "/parishes",
-            name: "parishes",
-            element: NewParishesPage,
-            layout: "/admin",
-        },
-        {
-            path: "/districts/counties/subcounties/parishes/villages",
-            name: "districts/counties/subcounties/parishes/villages",
-            element: NewVillagesPage,
-            layout: "/admin",
-        },
-        {
-            path: "/villages",
-            name: "villages",
-            element: NewVillagesPage,
             layout: "/admin",
         },
         {

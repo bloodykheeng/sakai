@@ -12,21 +12,26 @@ import { toast } from "react-toastify";
 function CreateForm({ loggedInUserData, ...props }) {
     const queryClient = useQueryClient();
 
-    const creactMutation = useMutation(createUser, {
+    const [creactMutationIsLoading, setCreactMutationIsLoading] = useState(false);
+    const creactMutation = useMutation({
+        mutationFn: createUser,
         onSuccess: () => {
             queryClient.invalidateQueries(["users"]);
             toast.success("created Successfully");
+            setCreactMutationIsLoading(false);
             props.onClose();
         },
         onError: (error) => {
             // props.onClose();
-            error?.response?.data?.message ? toast.error(error?.response?.data?.message) : toast.error("Án Error Occured Please Contact Admin");
+            setCreactMutationIsLoading(false);
+            error?.response?.data?.message ? toast.error(error?.response?.data?.message) : !error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
             console.log("create programs error : ", error);
         },
     });
 
     const handleSubmit = async (data) => {
         // event.preventDefault();
+        setCreactMutationIsLoading(true);
         console.log("data we are submitting while creating a user : ", data);
         creactMutation.mutate(data);
     };
@@ -36,7 +41,7 @@ function CreateForm({ loggedInUserData, ...props }) {
             <p>Fill in the form below</p>
             <RowForm loggedInUserData={loggedInUserData} handleSubmit={handleSubmit} project_id={props?.projectId} selectedParentItem={props?.selectedParentItem} />
             {/* <h4>{creactProgramsMutation.status}</h4> */}
-            {creactMutation.isLoading && (
+            {creactMutationIsLoading && (
                 <center>
                     <ProgressSpinner
                         style={{

@@ -12,15 +12,19 @@ import { toast } from "react-toastify";
 function EditForm(props) {
     const queryClient = useQueryClient();
 
+    const [editMutationIsLoading, setEditMutationIsLoading] = useState(false);
+
     const editMutation = useMutation({
         mutationFn: (variables) => updateProductType(props?.rowData?.id, variables),
         onSuccess: () => {
             props.onClose();
+            setEditMutationIsLoading(false);
             toast.success("Edited Successfully");
             queryClient.invalidateQueries(["product-types"]);
         },
         onError: (error) => {
             // props.onClose();
+            setEditMutationIsLoading(false);
             error?.response?.data?.message ? toast.error(error?.response?.data?.message) : !error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
         },
     });
@@ -56,7 +60,7 @@ function EditForm(props) {
             <RowForm initialData={props.rowData} handleSubmit={handleSubmit} />
             {/* <h4>{creactProgramsMutation.status}</h4> */}
 
-            {editMutation.isLoading && (
+            {editMutationIsLoading && (
                 <center>
                     <ProgressSpinner
                         style={{

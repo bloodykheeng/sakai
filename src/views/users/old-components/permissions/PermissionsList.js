@@ -7,6 +7,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import MuiTable from "../../../../components/general_components/MuiTable";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 function PermissionsList() {
     let tableId = 0;
@@ -39,8 +40,16 @@ function PermissionsList() {
         },
     ];
 
-    const getListOfPermissions = useQuery(["userspermissions"], getAllPermissions);
+    const getListOfPermissions = useQuery({ queryKey: ["userspermissions"], queryFn: getAllPermissions });
+
     console.log("getListOfPermissions : ", getListOfPermissions);
+
+    useEffect(() => {
+        if (getListOfPermissions?.isError) {
+            console.log("Error fetching List of Users :", getListOfPermissions?.error);
+            getListOfPermissions?.error?.response?.data?.message ? toast.error(getListOfPermissions?.error?.response?.data?.message) : !getListOfPermissions?.error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
+        }
+    }, [getListOfPermissions?.isError]);
     return (
         <div>
             <div>

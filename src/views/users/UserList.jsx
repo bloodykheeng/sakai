@@ -50,28 +50,31 @@ function UserList({ loggedInUserData }) {
         setShowUserForm(false);
     };
 
-    const getListOfUsers = useQuery(["users"], getAllUsers, {
-        onSuccess: (data) => {
-            console.log("list of all users : ", data);
-        },
-        onError: (err) => {
-            console.log("The error is : ", err);
-            toast.error("An error occurred while fetching users!");
-            setLoading(false);
-        },
-    });
+    const getListOfUsers = useQuery({ queryKey: ["users"], queryFn: getAllUsers });
     console.log("users list : ", getListOfUsers?.data?.data);
 
-    const deleteUserMutation = useMutation(deleteUserById, {
+    useEffect(() => {
+        if (getListOfUsers?.isError) {
+            console.log("Error fetching List of Users :", getListOfUsers?.error);
+            getListOfUsers?.error?.response?.data?.message ? toast.error(getListOfUsers?.error?.response?.data?.message) : !getListOfUsers?.error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
+        }
+    }, [getListOfUsers?.isError]);
+    console.log("users list : ", getListOfUsers?.data?.data);
+
+    const [deleteMutationIsLoading, setDeleteMutationIsLoading] = useState(false);
+    const deleteMutation = useMutation(deleteUserById, {
         onSuccess: (data) => {
             queryClient.resetQueries(["users"]);
             setLoading(false);
+            setDeleteMutationIsLoading(false);
             console.log("deleted user succesfully ooooo: ");
         },
-        onError: (err) => {
-            console.log("The error is : ", err);
+        onError: (error) => {
+            console.log("The error is : ", error);
             toast.error("An error occurred!");
+            setDeleteMutationIsLoading(false);
             setLoading(false);
+            error?.response?.data?.message ? toast.error(error?.response?.data?.message) : !error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
         },
     });
 
@@ -100,7 +103,7 @@ function UserList({ loggedInUserData }) {
     const confirmDelete = (deleteUserId) => {
         if (deleteUserId !== null) {
             console.log("Ohh Yea delete User Id Not Null");
-            deleteUserMutation.mutate(deleteUserId);
+            deleteMutation.mutate(deleteUserId);
         }
     };
 
@@ -174,7 +177,7 @@ function UserList({ loggedInUserData }) {
                                     handleDelete={(e, item_id) => handleDelete(e, item_id)}
                                     showEdit={loggedInUserData?.permissions?.includes("update user")}
                                     showDelete={loggedInUserData?.permissions?.includes("delete user")}
-                                    loading={loading || getListOfUsers.isLoading || getListOfUsers.status == "loading"}
+                                    loading={loading || getListOfUsers.isLoading || getListOfUsers.status == "loading" || deleteMutationIsLoading}
                                 />
 
                                 <UserDetailsPage user={userDetail} showModal={userDetailShowModal} handleCloseModal={handleCloseuserDetailModal} />
