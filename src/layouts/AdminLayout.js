@@ -200,37 +200,37 @@ const AdminLayout = () => {
                     ],
                 },
 
-                {
-                    label: "Locations",
-                    icon: "pi pi-fw pi-globe",
-                    items: [
-                        {
-                            label: "Districts",
-                            icon: "pi pi-fw pi-map-marker",
-                            to: "/districts",
-                        },
-                        {
-                            label: "Counties",
-                            icon: "pi pi-fw pi-map-marker",
-                            to: "/Counties",
-                        },
-                        {
-                            label: "Sub Counties",
-                            icon: "pi pi-fw pi-map-marker",
-                            to: "/SubCounties",
-                        },
-                        {
-                            label: "Parish",
-                            icon: "pi pi-fw pi-map-marker",
-                            to: "/parishes",
-                        },
-                        {
-                            label: "Village",
-                            icon: "pi pi-fw pi-map-marker",
-                            to: "/villages",
-                        },
-                    ],
-                },
+                // {
+                //     label: "Locations",
+                //     icon: "pi pi-fw pi-globe",
+                //     items: [
+                //         {
+                //             label: "Districts",
+                //             icon: "pi pi-fw pi-map-marker",
+                //             to: "/districts",
+                //         },
+                //         {
+                //             label: "Counties",
+                //             icon: "pi pi-fw pi-map-marker",
+                //             to: "/Counties",
+                //         },
+                //         {
+                //             label: "Sub Counties",
+                //             icon: "pi pi-fw pi-map-marker",
+                //             to: "/SubCounties",
+                //         },
+                //         {
+                //             label: "Parish",
+                //             icon: "pi pi-fw pi-map-marker",
+                //             to: "/parishes",
+                //         },
+                //         {
+                //             label: "Village",
+                //             icon: "pi pi-fw pi-map-marker",
+                //             to: "/villages",
+                //         },
+                //     ],
+                // },
             ],
         },
         // {

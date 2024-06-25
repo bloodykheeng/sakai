@@ -93,8 +93,8 @@ export const AppTopbar = (props) => {
     return (
         <div className="layout-topbar">
             <Link to="/" className="layout-topbar-logo">
-                <img src={props.layoutColorMode === "light" ? "assets/layout/images/mycarclassic.png" : "assets/layout/images/mycarclassic.png"} alt="logo" style={{ height: "100px" }} />
-                <span>MYCAR</span>
+                <img src={props.layoutColorMode === "light" ? "assets/layout/images/nice-removebg-preview.png" : "assets/layout/images/nice-removebg-preview.png"} alt="logo" style={{ height: "100px" }} />
+                {/* <span>NICE HOUSE OF PLASTICS</span> */}
             </Link>
 
             <button type="button" className="p-link layout-menu-button layout-topbar-button" onClick={props.onToggleMenuClick}>

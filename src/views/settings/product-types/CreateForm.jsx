@@ -19,7 +19,8 @@ function CreateForm(props) {
     const queryClient = useQueryClient();
 
     const [creactMutationIsLoading, setCreactMutationIsLoading] = useState(false);
-    const creactMutation = useMutation(postProductType, {
+    const creactMutation = useMutation({
+        mutationFn: postProductType,
         onSuccess: () => {
             queryClient.invalidateQueries(["product-types"]);
             toast.success("created Successfully");

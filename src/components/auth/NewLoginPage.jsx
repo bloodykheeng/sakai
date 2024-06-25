@@ -15,10 +15,17 @@ import ProcessDocuments from "../../assets/lotties/nice-hop/documets-processed.j
 import WaterAndEnviromentData from "../../assets/lotties/lottiefiles/WaterAndEnviroment.json";
 import WaterLoading from "../../assets/lotties/lottiefiles/WaterLoading.json";
 // import ForgotPassword from "./lottiefiles/ForgotPassword.json";
-import { toast } from "react-toastify";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import OpenEye from "../../assets/lotties/lottiefiles/83983-eye-icon.json";
+
+//==== google
+import { postThirdPartyRegisterAuth, postThirdPartyLoginAuth } from "../../services/auth/auth-api.js";
+import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
+import { Grid, Divider, Typography, CircularProgress } from "@mui/material";
 
 function NewLoginPage() {
     const queryClient = useQueryClient();
@@ -121,6 +128,26 @@ function NewLoginPage() {
         }
     };
 
+    //======================= google login =========================
+    const [isLoadingThirdPartyLogin, setIsLoadingThirdPartyLogin] = useState(false);
+    const thirdPartyLoginAuthMutation = useMutation({
+        mutationFn: (variables) => postThirdPartyLoginAuth(variables),
+        onSuccess: (data) => {
+            console.log("postThirdPartyAuth data : ", data);
+            setIsLoadingThirdPartyLogin(false);
+            queryClient.invalidateQueries([]);
+            //   axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+            navigate("/");
+            // window.location.reload();
+        },
+        onError: (error) => {
+            error?.response?.data?.message ? toast.error(error?.response?.data?.message) : !error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
+            setIsLoadingThirdPartyLogin(false);
+
+            console.log("login error : ", error);
+        },
+    });
+
     return (
         <section className="app-intro app-sec vh-100 w-100">
             <div
@@ -203,6 +230,43 @@ function NewLoginPage() {
                                         "Login"
                                     )}
                                 </Components.Button>
+                                <br />
+
+                                <Grid item xs={12}>
+                                    <Divider>
+                                        <Typography variant="caption"> Login with</Typography>
+                                    </Divider>
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <center>
+                                        {isLoadingThirdPartyLogin ? (
+                                            <CircularProgress size={24} />
+                                        ) : (
+                                            <GoogleLogin
+                                                // theme={theme === 'dark' ? 'filled_blue' : 'outline'}
+                                                onSuccess={async (response) => {
+                                                    console.log(response);
+                                                    let responseDecoded = jwtDecode(response?.credential);
+                                                    console.log("🚀 ~ Login ~ responseDecoded:", responseDecoded);
+                                                    let dataToPost = {
+                                                        name: responseDecoded?.name,
+                                                        picture: responseDecoded?.picture,
+                                                        client_id: response?.clientId,
+                                                        provider: "google",
+                                                        email: responseDecoded?.email,
+                                                    };
+                                                    setIsLoadingThirdPartyLogin(true);
+                                                    thirdPartyLoginAuthMutation.mutate(dataToPost);
+                                                }}
+                                                onError={() => {
+                                                    console.log("Login Failed");
+                                                }}
+                                            />
+                                        )}
+                                    </center>
+                                    {/* <FirebaseSocial /> */}
+                                </Grid>
                             </Components.Form>
                         </Components.SignInContainer>
                     </div>

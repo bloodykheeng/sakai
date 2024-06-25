@@ -23,23 +23,25 @@ import { Image } from "primereact/image";
 
 function ListPage({ loggedInUserData, ...props }) {
     const queryClient = useQueryClient();
-    const { data, isLoading, isError, error, status } = useQuery(["product-types"], getAllProductTypes, {
-        onSuccess: (data) => {
-            console.log("list of all vendors : ", data);
-        },
-        onError: (error) => {
-            console.log("Error fetching getAllVendors is : ", error);
-            error?.response?.data?.message ? toast.error(error?.response?.data?.message) : !error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
-        },
-    });
+    const { data, isLoading, isError, error, status } = useQuery({ queryKey: ["product-types"], queryFn: getAllProductTypes });
     console.log(data);
-    isError && toast.error("There was an error while fetching data");
 
-    const DeleteSelectedItemMutation = useMutation((variables) => deleteProductTypeById(variables), {
+    useEffect(() => {
+        if (isError) {
+            console.log("Error fetching List of Users :", error);
+            error?.response?.data?.message ? toast.error(error?.response?.data?.message) : !error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
+        }
+    }, [isError]);
+
+    const [deleteItemMutationIsLoading, setDeleteItemMutationIsLoading] = useState(false);
+    const DeleteSelectedItemMutation = useMutation({
+        mutationFn: (variables) => deleteProductTypeById(variables),
         onSuccess: (data) => {
             queryClient.invalidateQueries(["product-types"]);
+            setDeleteItemMutationIsLoading(false);
         },
         onError: (error) => {
+            setDeleteItemMutationIsLoading(false);
             error?.response?.data?.message ? toast.error(error?.response?.data?.message) : !error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
         },
     });
@@ -64,6 +66,7 @@ function ListPage({ loggedInUserData, ...props }) {
 
     const confirmDelete = (selectedDeleteId) => {
         if (selectedDeleteId !== null) {
+            setDeleteItemMutationIsLoading(true);
             DeleteSelectedItemMutation.mutate(selectedDeleteId);
         }
     };
@@ -150,13 +153,13 @@ function ListPage({ loggedInUserData, ...props }) {
 
                 <MuiTable
                     tableTitle="Product Types"
-                    tableData={data?.data}
+                    tableData={data?.data ?? []}
                     tableColumns={columns}
                     handleShowEditForm={handleShowEditForm}
                     handleDelete={(e, item_id) => handleDelete(e, item_id)}
                     showEdit={activeUser?.permissions.includes("update")}
                     showDelete={activeUser?.permissions.includes("delete")}
-                    loading={isLoading || status === "loading" || DeleteSelectedItemMutation.isLoading}
+                    loading={isLoading || status === "loading" || deleteItemMutationIsLoading}
                 />
 
                 {selectedItem && <EditForm rowData={selectedItem} show={showEditForm} onHide={handleCloseEditForm} onClose={handleCloseEditForm} />}

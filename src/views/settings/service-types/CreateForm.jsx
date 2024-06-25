@@ -18,7 +18,8 @@ function CreateForm(props) {
 
     const queryClient = useQueryClient();
 
-    const creactMutation = useMutation(postServiceType, {
+    const creactMutation = useMutation({
+        mutationFn: postServiceType,
         onSuccess: () => {
             queryClient.invalidateQueries(["service-types"]);
             toast.success("created Successfully");

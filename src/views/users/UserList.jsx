@@ -62,7 +62,8 @@ function UserList({ loggedInUserData }) {
     console.log("users list : ", getListOfUsers?.data?.data);
 
     const [deleteMutationIsLoading, setDeleteMutationIsLoading] = useState(false);
-    const deleteMutation = useMutation(deleteUserById, {
+    const deleteMutation = useMutation({
+        mutationFn: deleteUserById,
         onSuccess: (data) => {
             queryClient.resetQueries(["users"]);
             setLoading(false);
@@ -171,7 +172,7 @@ function UserList({ loggedInUserData }) {
                             <div>
                                 <MuiTable
                                     tableTitle="Users"
-                                    tableData={getListOfUsers?.data?.data}
+                                    tableData={getListOfUsers?.data?.data?.data ?? []}
                                     tableColumns={columns}
                                     handleShowEditForm={handleShowEditForm}
                                     handleDelete={(e, item_id) => handleDelete(e, item_id)}

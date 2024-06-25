@@ -18,14 +18,18 @@ function CreateForm(props) {
 
     const queryClient = useQueryClient();
 
-    const creactMutation = useMutation(postVendor, {
+    const [creactMutationIsLoading, setCreactMutationIsLoading] = useState(false);
+    const creactMutation = useMutation({
+        mutationFn: postVendor,
         onSuccess: () => {
             queryClient.invalidateQueries(["vendors"]);
             toast.success("created Successfully");
             props.onClose();
+            setCreactMutationIsLoading(false);
         },
         onError: (error) => {
             // props.onClose();
+            setCreactMutationIsLoading(false);
             error?.response?.data?.message ? toast.error(error?.response?.data?.message) : !error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
             console.log("create vendors error : ", error);
         },
@@ -33,6 +37,7 @@ function CreateForm(props) {
 
     const handleSubmit = async (data) => {
         // event.preventDefault();
+        setCreactMutationIsLoading(true);
         console.log("data we are submitting : ", data);
         creactMutation.mutate(data);
     };
@@ -42,7 +47,7 @@ function CreateForm(props) {
             <p>Fill in the form below</p>
             <RowForm handleSubmit={handleSubmit} project_id={props?.projectId} />
             {/* <h4>{creactProgramsMutation.status}</h4> */}
-            {creactMutation.isLoading && (
+            {creactMutationIsLoading && (
                 <center>
                     <ProgressSpinner
                         style={{

@@ -71,7 +71,7 @@ function RolesList() {
     return (
         <div>
             <div>
-                <MuiTable tableTitle="Roles" tableData={getListOfRoles?.data?.data} tableColumns={columns} loading={getListOfRoles.isLoading || getListOfRoles.status == "loading"} />
+                <MuiTable tableTitle="Roles" tableData={getListOfRoles?.data?.data ?? []} tableColumns={columns} loading={getListOfRoles.isLoading || getListOfRoles.status == "loading"} />
                 {(getListOfRoles.isLoading || getListOfRoles.status == "loading") && <WaterIsLoading />}
                 <RolesPermissionModal roleName={roleName} permissions={permissionList} showModal={permissionShowModal} handleCloseModal={handleClosePermissionModal} roleId={roleId} />
             </div>

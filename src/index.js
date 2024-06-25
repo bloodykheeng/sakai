@@ -7,6 +7,9 @@ import { BrowserRouter } from "react-router-dom";
 import ScrollToTop from "./ScrollToTop";
 
 //
+import "./index.css";
+
+//
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -14,6 +17,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { confirmDialog, ConfirmDialog } from "primereact/confirmdialog";
+
+// google login
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 //
 import "@fontsource/roboto/300.css";
@@ -40,17 +46,19 @@ const queryClient = new QueryClient({
 ReactDOM.render(
     <BrowserRouter>
         <QueryClientProvider client={queryClient}>
-            <ScrollToTop>
-                <AuthProvider>
-                    <ActiveProvider>
-                        <App />
-                    </ActiveProvider>
-                </AuthProvider>
-                <ReactQueryDevtools initialIsOpen={true} />
-                <Tooltip target=".custom-target-icon" />
-                <ConfirmDialog />
-                <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
-            </ScrollToTop>
+            <GoogleOAuthProvider clientId={process.env.VITE_APP_GOOGLE_CLIENT_ID}>
+                <ScrollToTop>
+                    <AuthProvider>
+                        <ActiveProvider>
+                            <App />
+                        </ActiveProvider>
+                    </AuthProvider>
+                    <ReactQueryDevtools initialIsOpen={true} />
+                    <Tooltip target=".custom-target-icon" />
+                    <ConfirmDialog />
+                    <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
+                </ScrollToTop>
+            </GoogleOAuthProvider>
         </QueryClientProvider>
     </BrowserRouter>,
     document.getElementById("root")
