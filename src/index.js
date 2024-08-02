@@ -1,6 +1,6 @@
 import "react-app-polyfill/ie11";
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import App from "./App";
 //import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
@@ -43,10 +43,11 @@ const queryClient = new QueryClient({
     },
 });
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
     <BrowserRouter>
         <QueryClientProvider client={queryClient}>
-            <GoogleOAuthProvider clientId={process.env.VITE_APP_GOOGLE_CLIENT_ID}>
+            <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
                 <ScrollToTop>
                     <AuthProvider>
                         <ActiveProvider>
@@ -60,8 +61,7 @@ ReactDOM.render(
                 </ScrollToTop>
             </GoogleOAuthProvider>
         </QueryClientProvider>
-    </BrowserRouter>,
-    document.getElementById("root")
+    </BrowserRouter>
 );
 
 // If you want your app to work offline and load faster, you can change

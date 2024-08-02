@@ -12,9 +12,7 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
     const queryClient = useQueryClient();
-    const [user, setUser] = useState(null);
     const [errors, setErrors] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [logoutMutationIsLoading, setLogoutMutationIsLoading] = useState(false);
 
     const location = useLocation();
@@ -30,65 +28,57 @@ export const AuthProvider = ({ children }) => {
     //     },
     // });
 
-    function createQueryKeyWithFilterParams(filterParams) {
-        // Check if filterParams is an object
-        if (filterParams && typeof filterParams === "object" && !Array.isArray(filterParams)) {
-            // Create an array from the object's entries
-            const paramsArray = Object.entries(filterParams).flat();
-            return [...paramsArray];
-        }
-        // If filterParams is not an object, return the array without it
-        return [];
-    }
-
+    // The signal is an instance of the AbortSignal interface provided by tanstack,
+    // which is used to communicate with a AbortController to signal that an operation should be aborted.
     const getUserQuery = useQuery({
-        queryKey: ["user", ...createQueryKeyWithFilterParams(user)],
-        queryFn: getUserService,
-        retry: false,
+        queryKey: ["logged-in-user"],
+        queryFn: ({ signal }) => getUserService({ params: {}, signal }),
+        // retry: true,
     });
+
+    console.log("🚀 ~ AuthProvider logged in User ~ getUserQuery:", getUserQuery);
 
     useEffect(() => {
         if (getUserQuery?.isError) {
-            setIsLoading(false);
-            if (location.pathname == "/login" || location.pathname == "/register") {
+            if (location.pathname === "/login" || location.pathname === "/sign-up" || location.pathname === "/reset-password") {
                 console.log("location is outside auth");
+            } else if (!getUserQuery?.error?.response) {
+                navigate("/login");
+                toast.warning("Check Your Internet Connection Please");
             } else {
                 // Redirect to the specified location
                 navigate("/login");
             }
-            console.log("Error fetching getAllMotorThirdParties:", getUserQuery?.error);
+            console.log("Error getUserQuery :", getUserQuery?.error);
             getUserQuery?.error?.response?.data?.message ? toast.error(getUserQuery?.error?.response?.data?.message) : !getUserQuery?.error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occured Please Contact Admin");
         }
     }, [getUserQuery?.isError]);
 
+    //memorised user data
     const userData = useMemo(() => getUserQuery.data?.data, [getUserQuery.data]);
 
-    useEffect(() => {
-        if (getUserQuery.isSuccess) {
-            setIsLoading(false);
-            console.log("user data from auth context:", userData);
+    //===================== successfully logged in =======================
+    if (getUserQuery.isSuccess) {
+        console.log("user data from auth context:", userData);
 
-            if (!userData) {
-                if (location.pathname === "/login" || location.pathname === "/register" || location.pathname === "/forgotpassword") {
+        if (!userData) {
+            if (location.pathname === "/login" || location.pathname === "/sign-up" || location.pathname === "/reset-password") {
+                console.log("location is outside auth");
+            } else {
+                navigate("/dashboard"); // Redirect to the specified location
+            }
+        } else {
+            if (userData.message === "Unauthenticated.") {
+                // Handle "Unauthenticated" error
+                console.log("User not logged in");
+                if (location.pathname === "/login" || location.pathname === "/sign-up" || location.pathname === "/reset-password") {
                     console.log("location is outside auth");
                 } else {
-                    navigate("/dashboard"); // Redirect to the specified location
-                }
-            } else {
-                if (userData.message === "Unauthenticated.") {
-                    // Handle "Unauthenticated" error
-                    console.log("User not logged in");
-                    if (location.pathname === "/login" || location.pathname === "/register" || location.pathname === "/forgotpassword") {
-                        console.log("location is outside auth");
-                    } else {
-                        navigate("/login"); // Redirect to the specified location
-                    }
-                } else {
-                    setUser(userData);
+                    navigate("/login"); // Redirect to the specified location
                 }
             }
         }
-    }, [userData]);
+    }
 
     // Logout mutation function
     const logoutMutation = useMutation({
@@ -96,29 +86,36 @@ export const AuthProvider = ({ children }) => {
         onSuccess: (data) => {
             setLogoutMutationIsLoading(false);
             // Reset the user state to null
-            setUser(null);
-            queryClient.resetQueries(["users"]);
+            queryClient.resetQueries(["logged-in-user"]);
+            queryClient.resetQueries([]);
             queryClient.clear();
+            queryClient.refetchQueries();
 
             // Remove the Authorization header from Axios
             axios.defaults.headers.common["Authorization"] = null;
 
+            // Remove the Authorization header from Axios
+            delete axios.defaults.headers.common["Authorization"];
+
+            // clear local storage
+            // localStorage.removeItem("access_token");
+            // localStorage.removeItem("refresh_token");
+
+            // Set localStorage items to null
+            localStorage.setItem("access_token", "null");
+            localStorage.setItem("refresh_token", "null");
+
+            // Set loading state to false
             console.log("logout response is : ", data);
             navigate("/login");
             window.location.reload();
             // Display a success toast message
             toast.success("Goodbye 👋");
-
-            // Set loading state to false
-            setIsLoading(false);
         },
         onError: (error) => {
             setLogoutMutationIsLoading(false);
             // Display an error toast message
             toast.error("Logout Error");
-
-            // Set loading state to false
-            setIsLoading(false);
 
             // Log the error
             console.log("Logout errors ", error);
@@ -132,10 +129,7 @@ export const AuthProvider = ({ children }) => {
                 logoutMutation,
                 setLogoutMutationIsLoading,
                 logoutMutationIsLoading,
-                user,
                 errors,
-                isLoading,
-                setIsLoading,
             }}
         >
             {children}

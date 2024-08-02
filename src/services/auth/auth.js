@@ -16,9 +16,8 @@ export async function getCsrf(data) {
     return response;
 }
 
-export async function getUserService(data) {
-    //   await csrf();
-    const response = await axiosAPI.get("/user");
+export async function getUserService(params = {}) {
+    const response = await axiosAPI.get("get-logged-in-user", { params: params?.params, signal: params?.signal });
     return response;
 }
 

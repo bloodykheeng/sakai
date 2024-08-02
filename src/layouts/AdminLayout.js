@@ -13,7 +13,7 @@ import { AppConfig } from "../AppConfig";
 import Dashboard from "../components/Dashboard";
 import ButtonDemo from "../components/ButtonDemo";
 import ChartDemo from "../components/ChartDemo";
-import Documentation from "../components/Documentation";
+
 import FileDemo from "../components/FileDemo";
 import FloatLabelDemo from "../components/FloatLabelDemo";
 import FormLayoutDemo from "../components/FormLayoutDemo";
@@ -28,8 +28,6 @@ import PanelDemo from "../components/PanelDemo";
 import TableDemo from "../components/TableDemo";
 import TreeDemo from "../components/TreeDemo";
 import InvalidStateDemo from "../components/InvalidStateDemo";
-import BlocksDemo from "../components/BlocksDemo";
-import IconsDemo from "../components/IconsDemo";
 
 import Crud from "../pages/Crud";
 import EmptyPage from "../pages/EmptyPage";
@@ -41,7 +39,6 @@ import { Tooltip } from "primereact/tooltip";
 import "primereact/resources/primereact.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
-import "prismjs/themes/prism-coy.css";
 import "../assets/demo/flags/flags.css";
 import "../assets/demo/Demos.scss";
 import "../assets/layout/layout.scss";

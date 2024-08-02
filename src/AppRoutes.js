@@ -21,15 +21,12 @@ const OverlayDemo = lazy(() => import("./components/OverlayDemo"));
 const MediaDemo = lazy(() => import("./components/MediaDemo"));
 const MenuDemo = lazy(() => import("./components/MenuDemo"));
 const MessagesDemo = lazy(() => import("./components/MessagesDemo"));
-const BlocksDemo = lazy(() => import("./components/BlocksDemo"));
-const IconsDemo = lazy(() => import("./components/IconsDemo"));
 const FileDemo = lazy(() => import("./components/FileDemo"));
 const ChartDemo = lazy(() => import("./components/ChartDemo"));
 const MiscDemo = lazy(() => import("./components/MiscDemo"));
 const Crud = lazy(() => import("./pages/Crud"));
 const EmptyPage = lazy(() => import("./pages/EmptyPage"));
 const TimelineDemo = lazy(() => import("./pages/TimelineDemo"));
-const Documentation = lazy(() => import("./components/Documentation"));
 
 function AppRoutes() {
     const privateDefaultRoutes = [
@@ -118,18 +115,6 @@ function AppRoutes() {
             layout: "/private",
         },
         {
-            path: "/blocks",
-            name: "blocks",
-            element: BlocksDemo,
-            layout: "/private",
-        },
-        {
-            path: "/icons",
-            name: "icons",
-            element: IconsDemo,
-            layout: "/private",
-        },
-        {
             path: "/file",
             name: "file",
             element: FileDemo,
@@ -163,12 +148,6 @@ function AppRoutes() {
             path: "/empty",
             name: "empty",
             element: EmptyPage,
-            layout: "/private",
-        },
-        {
-            path: "/documentation",
-            name: "documentation",
-            element: Documentation,
             layout: "/private",
         },
 
