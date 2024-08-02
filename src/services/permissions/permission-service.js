@@ -1,18 +1,16 @@
 import axiosAPI from "../axiosApi";
 
 export async function getAllPermissions(params = {}) {
-  const response = await axiosAPI.get("users-permissions", {
-    params: params
-  });
-  return response;
+    const response = await axiosAPI.get("users-permissions", {
+        params: params,
+    });
+    return response;
 }
 
 export async function getPermissionNotInCurrentRole(id) {
-  console.log("idccccc : ", id);
-  const response = await axiosAPI.get(
-    `users-permissions-permissionNotInCurrentRole/${id}`
-  );
-  return response;
+    console.log("idccccc : ", id);
+    const response = await axiosAPI.get(`users-permissions-permissionNotInCurrentRole/${id}`);
+    return response;
 }
 
 // export async function getApproverRoles() {
@@ -41,3 +39,10 @@ export async function getPermissionNotInCurrentRole(id) {
 //   const response = await axiosAPI.get("roles");
 //   return response;
 // }
+
+// latest
+
+export async function getAllPermissionsService(params = {}) {
+    const response = await axiosAPI.get("users-permissions", { params: params });
+    return response;
+}

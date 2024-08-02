@@ -8,7 +8,10 @@ import { Panel } from "primereact/panel";
 import RolesList from "./old-components/roles/RolesList";
 import PermissionsList from "./old-components/permissions/PermissionsList.js";
 // import ActivityLogsList from "./ActivityLogsList";
-import "primereact/resources/themes/lara-light-indigo/theme.css";
+// import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/themes/lara-light-green/theme.css";
+import RolesPage from "./roles/RolesPage";
+import PermissionsPage from "./permissions/PermissionsPage";
 
 function UserPage({ loggedInUserData }) {
     console.log("loggedInUserData user page : ", loggedInUserData);
@@ -25,14 +28,14 @@ function UserPage({ loggedInUserData }) {
                     {loggedInUserData?.permissions?.includes("view roles") && (
                         <TabPanel header="Roles">
                             <div style={{ width: "100%", minHeight: "100vh", padding: "1rem" }}>
-                                <RolesList loggedInUserData={loggedInUserData} />
+                                <RolesPage loggedInUserData={loggedInUserData} />
                             </div>
                         </TabPanel>
                     )}
                     {loggedInUserData?.permissions?.includes("view permissions") && (
                         <TabPanel header="Permissions">
                             <div style={{ width: "100%", minHeight: "100vh", padding: "1rem" }}>
-                                <PermissionsList />
+                                <PermissionsPage />
                             </div>
                         </TabPanel>
                     )}

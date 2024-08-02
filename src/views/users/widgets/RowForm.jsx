@@ -104,12 +104,17 @@ function RowForm({ loggedInUserData, handleSubmit, initialData, ...props }) {
     };
 
     //==================== get all Roles ====================
-    const getAllRoles = useQuery(["roles"], getAssignableRoles, {
-        onSuccess: (data) => {
-            console.log("fetching roles xxx : ", data);
-        },
-        onError: (error) => {},
+    const getAllRolesQuery = useQuery({
+        queryKey: ["roles"],
+        queryFn: getAssignableRoles,
     });
+
+    useEffect(() => {
+        if (getAllRolesQuery?.isError) {
+            console.log("Error fetching List of user roles data:", getAllRolesQuery?.error);
+            getAllRolesQuery?.error?.response?.data?.message ? toast.error(getAllRolesQuery?.error?.response?.data?.message) : !getAllRolesQuery?.error?.response ? toast.warning("Check Your Internet Connection Please") : toast.error("An Error Occurred Please Contact Admin");
+        }
+    }, [getAllRolesQuery?.isError]);
 
     if (initialData) {
         initialData = { role: initialData?.role, ...initialData };
@@ -191,7 +196,7 @@ function RowForm({ loggedInUserData, handleSubmit, initialData, ...props }) {
                                     {({ input, meta }) => (
                                         <div className="p-field m-4">
                                             <label htmlFor="role">Role</label>
-                                            <Dropdown {...input} options={getAllRoles?.data?.data?.map((role) => ({ label: role, value: role }))} placeholder="Select a Role" className={classNames({ "p-invalid": meta.touched && meta.error })} />
+                                            <Dropdown {...input} options={getAllRolesQuery?.data?.data?.map((role) => ({ label: role, value: role }))} placeholder="Select a Role" className={classNames({ "p-invalid": meta.touched && meta.error })} />
                                             {meta.touched && meta.error && <small className="p-error">{meta.error}</small>}
                                         </div>
                                     )}

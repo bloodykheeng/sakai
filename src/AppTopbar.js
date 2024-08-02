@@ -92,8 +92,8 @@ export const AppTopbar = (props) => {
 
     return (
         <div className="layout-topbar">
-            <Link to="/" className="layout-topbar-logo">
-                <img src={props.layoutColorMode === "light" ? "assets/layout/images/nice-removebg-preview.png" : "assets/layout/images/nice-removebg-preview.png"} alt="logo" style={{ height: "100px" }} />
+            <Link className="layout-topbar-logo">
+                <img src={props.layoutColorMode === "light" ? "assets/pesa_photos/mockups-logos-13.png" : "assets/pesa_photos/mockups-logos-13.png"} alt="logo" style={{ width: "200px" }} />
                 {/* <span>NICE HOUSE OF PLASTICS</span> */}
             </Link>
 

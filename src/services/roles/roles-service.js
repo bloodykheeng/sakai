@@ -1,7 +1,7 @@
 import axiosAPI from "../axiosApi";
 export async function getAllRoles(params = {}) {
-  const response = await axiosAPI.get("users-roles", { params: params });
-  return response;
+    const response = await axiosAPI.get("users-roles", { params: params });
+    return response;
 }
 
 // takes in
@@ -12,21 +12,15 @@ export async function getAllRoles(params = {}) {
 //   "permission_ids": [2, 3, 4]
 // }
 export async function addPermissionsToRole(data) {
-  const response = await axiosAPI.post(
-    `users-roles-addPermissionsToRole`,
-    data
-  );
-  return response;
+    const response = await axiosAPI.post(`users-roles-addPermissionsToRole`, data);
+    return response;
 }
 
 // takes in role_id;
 // permission_id;
 export async function deletePermissionFromRole(data) {
-  const response = await axiosAPI.post(
-    `users-roles-deletePermissionFromRole`,
-    data
-  );
-  return response;
+    const response = await axiosAPI.post(`users-roles-deletePermissionFromRole`, data);
+    return response;
 }
 // export async function getUserById(id) {
 //   const response = await axiosAPI.get(`users/${id}`);
@@ -59,3 +53,16 @@ export async function deletePermissionFromRole(data) {
 //   const response = await axiosAPI.get("roles");
 //   return response;
 // }
+
+// latest
+export async function getAllRolesAndModifiedPermissionsService(params = {}) {
+    const response = await axiosAPI.get("roles-with-modified-permissions", { params: params });
+    return response;
+}
+
+export async function syncPermissionToRoleService(data) {
+    const response = await axiosAPI.post(`sync-permissions-to-role`, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+    });
+    return response;
+}

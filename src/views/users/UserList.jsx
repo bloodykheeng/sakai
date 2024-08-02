@@ -96,7 +96,7 @@ function UserList({ loggedInUserData }) {
             message: "Are you sure you want to delete?",
             header: "Confirmation",
             icon: "pi pi-exclamation-triangle",
-            accept: confirmDelete(deleteUserId),
+            accept: () => confirmDelete(deleteUserId),
             reject: cancelDelete,
         });
     };

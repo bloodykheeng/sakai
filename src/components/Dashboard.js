@@ -166,8 +166,8 @@ const Dashboard = (props) => {
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Comments</span>
-                            <div className="text-900 font-medium text-xl">152 Unread</div>
+                            <span className="block text-500 font-medium mb-3">Transactions</span>
+                            <div className="text-900 font-medium text-xl">152 closed</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-purple-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>
                             <i className="pi pi-comment text-purple-500 text-xl" />
@@ -182,7 +182,7 @@ const Dashboard = (props) => {
                 <div className="card">
                     <h5>Recent Sales</h5>
                     <DataTable value={products} rows={5} paginator responsiveLayout="scroll">
-                        <Column header="Image" body={(data) => <img className="shadow-2" src={`assets/demo/images/product/Cars/${data.image}`} alt={data.image} width="50" />} />
+                        <Column header="Image" body={(data) => <img className="shadow-2" src={`assets/demo/images/water/${data.image}`} alt={data.image} width="50" />} />
                         <Column field="name" header="Name" sortable style={{ width: "35%" }} />
                         <Column field="price" header="Price" sortable style={{ width: "35%" }} body={(data) => formatCurrency(data.price)} />
                         <Column
@@ -214,8 +214,8 @@ const Dashboard = (props) => {
                     <ul className="list-none p-0 m-0">
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Ford F-150</span>
-                                <div className="mt-1 text-600">Popular Pickup Truck</div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Stabex</span>
+                                <div className="mt-1 text-600">Long Lasting</div>
                             </div>
                             <div className="mt-2 md:mt-0 flex align-items-center">
                                 <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: "8px" }}>
@@ -226,8 +226,8 @@ const Dashboard = (props) => {
                         </li>
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Honda Civic</span>
-                                <div className="mt-1 text-600">Compact & Efficient Car</div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Shell</span>
+                                <div className="mt-1 text-600">Enviroment friendly</div>
                             </div>
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
                                 <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: "8px" }}>
@@ -238,8 +238,8 @@ const Dashboard = (props) => {
                         </li>
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Chevrolet Corvette</span>
-                                <div className="mt-1 text-600">High-Performance Sports Car</div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Total</span>
+                                <div className="mt-1 text-600">Enlighting</div>
                             </div>
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
                                 <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: "8px" }}>
@@ -250,8 +250,8 @@ const Dashboard = (props) => {
                         </li>
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Tesla Model S</span>
-                                <div className="mt-1 text-600">Luxury Electric Vehicle</div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Aqua Sipi</span>
+                                <div className="mt-1 text-600">Takes Away all your Thirst</div>
                             </div>
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
                                 <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: "8px" }}>
@@ -262,8 +262,8 @@ const Dashboard = (props) => {
                         </li>
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">BMW 3 Series</span>
-                                <div className="mt-1 text-600">Premium Executive Sedan</div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Zam Zam</span>
+                                <div className="mt-1 text-600">Premium Executive Water</div>
                             </div>
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
                                 <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: "8px" }}>
@@ -274,8 +274,8 @@ const Dashboard = (props) => {
                         </li>
                         <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
                             <div>
-                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Mercedes-Benz S-Class</span>
-                                <div className="mt-1 text-600">Flagship Luxury Sedan</div>
+                                <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Pot</span>
+                                <div className="mt-1 text-600">Enjoy the taste</div>
                             </div>
                             <div className="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
                                 <div className="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" style={{ height: "8px" }}>

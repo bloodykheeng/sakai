@@ -167,69 +167,53 @@ const AdminLayout = () => {
                     to: "/",
                 },
                 {
-                    label: "vendors",
-                    icon: "pi pi-fw pi-warehouse",
-                    to: "/vendors",
+                    label: "Product Categories",
+                    icon: "pi pi-fw pi-tags",
+                    to: "/product-categories",
                 },
+                {
+                    label: "Orders",
+                    icon: "pi pi-fw pi-shopping-cart",
+                    to: "/orders",
+                },
+                {
+                    label: "Customers",
+                    icon: "pi pi-fw pi-users",
+                    to: "/customers",
+                },
+                // {
+                //     label: "vendors",
+                //     icon: "pi pi-fw pi-warehouse",
+                //     to: "/vendors",
+                // },
             ],
         },
         {
             label: "User Management",
             items: [{ label: "Users", icon: "pi pi-fw pi-user-edit", to: "/users" }],
         },
-        {
-            label: "Configurations",
-            items: [
-                {
-                    label: "Settings",
-                    icon: "pi pi-fw pi-cog",
-                    items: [
-                        {
-                            label: "Product Types",
-                            icon: "pi pi-fw pi-sliders-h",
-                            to: "/product_types",
-                        },
-                        {
-                            label: "Service Types",
-                            icon: "pi pi-fw pi-sliders-v",
-                            to: "/service_types",
-                        },
-                    ],
-                },
+        // {
+        //     label: "Configurations",
+        //     items: [
+        //         {
+        //             label: "Settings",
+        //             icon: "pi pi-fw pi-cog",
+        //             items: [
+        //                 {
+        //                     label: "Product Types",
+        //                     icon: "pi pi-fw pi-sliders-h",
+        //                     to: "/product_types",
+        //                 },
+        //                 {
+        //                     label: "Service Types",
+        //                     icon: "pi pi-fw pi-sliders-v",
+        //                     to: "/service_types",
+        //                 },
+        //             ],
+        //         },
 
-                // {
-                //     label: "Locations",
-                //     icon: "pi pi-fw pi-globe",
-                //     items: [
-                //         {
-                //             label: "Districts",
-                //             icon: "pi pi-fw pi-map-marker",
-                //             to: "/districts",
-                //         },
-                //         {
-                //             label: "Counties",
-                //             icon: "pi pi-fw pi-map-marker",
-                //             to: "/Counties",
-                //         },
-                //         {
-                //             label: "Sub Counties",
-                //             icon: "pi pi-fw pi-map-marker",
-                //             to: "/SubCounties",
-                //         },
-                //         {
-                //             label: "Parish",
-                //             icon: "pi pi-fw pi-map-marker",
-                //             to: "/parishes",
-                //         },
-                //         {
-                //             label: "Village",
-                //             icon: "pi pi-fw pi-map-marker",
-                //             to: "/villages",
-                //         },
-                //     ],
-                // },
-            ],
-        },
+        //     ],
+        // },
         // {
         //     label: "UI Components",
         //     icon: "pi pi-fw pi-sitemap",
